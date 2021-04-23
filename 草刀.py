@@ -135,7 +135,7 @@ class Caodao(QMainWindow):
 			# print(all_dir)
 			counts = []
 			num = 0
-			randomRange = 100000
+			randomRange = 10000
 			#cut pics for each dir
 			for dir_i in all_dir:
 				father_path = path + '\\' + dir_i
@@ -155,6 +155,10 @@ class Caodao(QMainWindow):
 								if os.path.isdir(son_path2):
 									print('存在3层目录，放弃提取：'+son_path2)
 								else:
+									if num == randomRange:
+										self.logText.append('达到提取上限:' + str(num))
+										break;
+
 									count = random.randint(0,randomRange)
 									while count in counts:
 										count = random.randint(0,randomRange)
@@ -166,7 +170,10 @@ class Caodao(QMainWindow):
 									num = num + 1
 
 						else:
-							#os.path.splitext(son_path)[0]
+							if num == randomRange:
+								self.logText.append('达到提取上限:' + str(num))
+								break;
+
 							count = random.randint(0,randomRange)
 							while count in counts:
 								count = random.randint(0,randomRange)
@@ -176,6 +183,7 @@ class Caodao(QMainWindow):
 							shutil.copy(son_path, path + '/' + str(count) + appedix )
 							self.logText.append(son_path + '  ->  ' +  path + '/' + str(count) + appedix )
 							num = num + 1
+
 						#print(str(count))
 			self.logText.append('提取了' + str(num) + '个文件')
 
