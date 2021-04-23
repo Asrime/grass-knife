@@ -7,6 +7,7 @@ import os
 import shutil
 import random 
 
+import re
 #打印当前调用模块的名字
 print(__name__)
 
@@ -16,6 +17,7 @@ class Caodao(QMainWindow):
 	def __init__(self):
 		super().__init__()
 		self.initUI()
+		self.initData()
 
 	def initUI(self):
 		#设置字体
@@ -94,6 +96,11 @@ class Caodao(QMainWindow):
 		self.setWindowIcon(QIcon('icon.png'))
 		self.show()
 
+	#利用外部缓存初始化数据
+	def initData(self):
+		self.pathCache = self.readFromCache('pathCache', 'D:')
+		self.pathEdit.setText(self.pathCache)
+		
 	#控制窗口居中显示
 	def center(self):
 		#获取窗口
@@ -116,20 +123,21 @@ class Caodao(QMainWindow):
 
 	#浏览文件窗口
 	def setBrowerPath(self):
-		download_path = QFileDialog.getExistingDirectory(self, "浏览", "D:")   
-		self.pathEdit.setText(download_path)
+		path = QFileDialog.getExistingDirectory(self, '浏览', self.pathCache)   
+		self.writeIntoCache('pathCache', path)
+		self.pathEdit.setText(path)
 
 	def openDir(self):
 		path = self.pathEdit.text()
 		if path == '':
-			QMessageBox.question(self, "提示", "路径不能为空", QMessageBox.Yes | QMessageBox.No)
+			QMessageBox.question(self, '提示', '路径不能为空', QMessageBox.Yes | QMessageBox.No)
 		else:
 			os.startfile(path)
 
 	def getAllPic(self):
 		path = self.pathEdit.text()
 		if path == '':
-			QMessageBox.question(self, "提示", "路径不能为空", QMessageBox.Yes | QMessageBox.No)
+			QMessageBox.question(self, '提示', '路径不能为空', QMessageBox.Yes | QMessageBox.No)
 		else:
 			all_dir = os.listdir(path)
 			# print(all_dir)
@@ -186,6 +194,43 @@ class Caodao(QMainWindow):
 
 						#print(str(count))
 			self.logText.append('提取了' + str(num) + '个文件')
+
+	#读写外部缓存
+	def readFromCache(self, key, default):
+		flag = False #判断key是否存在
+		if os.path.exists('./Config.txt'):
+
+			with open('./Config.txt','r') as f:
+				for line in f.readlines():
+					matchObj = re.match(key + r'=(.*)', line, flags = 0)
+					if matchObj:
+						flag = True
+						return str(matchObj.group(1))
+
+				if flag == False:
+					with open('./Config.txt', 'a') as f:
+						f.write('\n'+key + '=' + str(default))
+
+		else:
+			with open('./Config.txt', 'w') as f:
+				f.write(key + '=' + str(default))
+
+		return default
+
+	def writeIntoCache(self, key, val):
+		flag = False #判断key是否存在
+		with open('./Config.txt', 'r') as f1, open('./Config.bak', 'w') as f2:
+			for line in f1.readlines():
+				matchObj = re.match(key + r'=(.*)', line, flags = 0)
+				if matchObj:
+					flag = True
+					subStr = re.sub(key + r'.*', key + '=' + str(val), line)
+					f2.write(subStr)
+			if flag == False:
+				with open('./Config.bak', 'a') as f:
+					f.write('\n'+key + '=' + str(val))
+		os.remove('./Config.txt')
+		os.rename('./Config.bak', './Config.txt')
 
 #如果是本体调用，运行主程序
 if __name__ == '__main__':
