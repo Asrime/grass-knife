@@ -27,14 +27,14 @@ class Caodao(QMainWindow):
 		#self.setToolTip('这是草刀')
 
 		#路径框
-		pathLabel = QLabel('路径')
+		pathLabel = QLabel('Working Path:')
 		self.pathEdit = QLineEdit()
 
-		pathbtn = QPushButton('浏览', self)
+		pathbtn = QPushButton('Browse', self)
 		pathbtn.clicked.connect(self.setBrowerPath)
 		pathbtn.resize(pathbtn.sizeHint())
 
-		openbtn = QPushButton('打开', self)
+		openbtn = QPushButton('Open', self)
 		openbtn.clicked.connect(self.openDir)
 		openbtn.resize(pathbtn.sizeHint())
 
@@ -55,7 +55,7 @@ class Caodao(QMainWindow):
 		#qbtn.move(50,50)
 
 		#提取整合图片按钮
-		okbtn = QPushButton('提取整合图片', self)
+		okbtn = QPushButton('Extract Files', self)
 		okbtn.clicked.connect(self.getAllPic)
 		okbtn.setToolTip('将对应目录下3层的单独文件收集到一层')
 		okbtn.resize(okbtn.sizeHint())
@@ -130,14 +130,14 @@ class Caodao(QMainWindow):
 	def openDir(self):
 		path = self.pathEdit.text()
 		if path == '':
-			QMessageBox.question(self, '提示', '路径不能为空', QMessageBox.Yes | QMessageBox.No)
+			QMessageBox.question(self, 'Warning', 'Working Path is empty!', QMessageBox.Yes | QMessageBox.No)
 		else:
 			os.startfile(path)
 
 	def getAllPic(self):
 		path = self.pathEdit.text()
 		if path == '':
-			QMessageBox.question(self, '提示', '路径不能为空', QMessageBox.Yes | QMessageBox.No)
+			QMessageBox.question(self, 'Warning', 'Working Path is empty!', QMessageBox.Yes | QMessageBox.No)
 		else:
 			all_dir = os.listdir(path)
 			# print(all_dir)
