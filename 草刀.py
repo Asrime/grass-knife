@@ -22,7 +22,7 @@ class Caodao(QMainWindow):
 		QToolTip.setFont(QFont('SansSerif', 10))
 		
 		#显示语
-		self.setToolTip('这是草刀')
+		#self.setToolTip('这是草刀')
 
 		#路径框
 		pathLabel = QLabel('路径')
@@ -58,6 +58,9 @@ class Caodao(QMainWindow):
 		okbtn.setToolTip('将对应目录下3层的单独文件收集到一层')
 		okbtn.resize(okbtn.sizeHint())
 
+		#log框
+		self.logText = QTextEdit()
+
 		#框布局按钮
 		hbox = QHBoxLayout()
 		hbox.addStretch(1)
@@ -72,6 +75,7 @@ class Caodao(QMainWindow):
 		vbox.addStretch(1)
 		vbox.addLayout(hbox)
 		vbox.addStretch(1)
+		vbox.addWidget(self.logText)
 		#vbox.addStretch(1)
 
 		#状态栏
@@ -158,6 +162,7 @@ class Caodao(QMainWindow):
 									#print( str(count) + '.png')
 									appedix = os.path.splitext(son_path2)[-1]
 									shutil.copy(son_path2, path + '/' + str(count) + appedix )
+									self.logText.append(son_path2 + '  ->  ' +  path + '/' + str(count) + appedix )
 									num = num + 1
 
 						else:
@@ -169,9 +174,10 @@ class Caodao(QMainWindow):
 							#print( str(count) + '.png')
 							appedix = os.path.splitext(son_path)[-1]
 							shutil.copy(son_path, path + '/' + str(count) + appedix )
+							self.logText.append(son_path + '  ->  ' +  path + '/' + str(count) + appedix )
 							num = num + 1
 						#print(str(count))
-			print('提取了' + str(num) + '个文件')
+			self.logText.append('提取了' + str(num) + '个文件')
 
 #如果是本体调用，运行主程序
 if __name__ == '__main__':
