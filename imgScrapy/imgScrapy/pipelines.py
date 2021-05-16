@@ -13,7 +13,8 @@ class ImgscrapyPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
         for image_url in item['image_urls']:
-            yield scrapy.Request(image_url)
+        	yield scrapy.Request(image_url)
+        	# print(image_url)
 
 	# def file_path(self, request, response = None, info = None):
 	# 	images_path_name = request.meta['item']['images_folder_name']

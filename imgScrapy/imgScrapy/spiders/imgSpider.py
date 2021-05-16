@@ -3,12 +3,11 @@ from imgScrapy.items import ImgscrapyItem
 
 class ImgspiderSpider(scrapy.Spider):
     name = 'imgSpider'
-    allowed_domains = ['lab.scrapyd.cn']
-    start_urls = ['http://lab.scrapyd.cn/archives/55.html']
+    allowed_domains = ['xyz.net']
+    start_urls = ['http://xyz.net']
 
     def parse(self, response):
-    	item = ImgscrapyItem()
-    	urls = response.css(".post img::attr(src)").extract()
-    	item['image_urls'] = urls
-    	yield item
-    	pass
+    	for url in response.xpath('//img'):
+    		item = ImgscrapyItem()
+	    	item['image_urls'] = url.xpath('@src').extract()
+	    	yield item

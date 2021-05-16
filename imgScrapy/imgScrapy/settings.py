@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = False
 IMAGES_STORE = 'ImageSpider'
 
 ITEM_PIPELINES = {
-   'imgScrapy.pipelines.ImgscrapyPipeline': 300,
+   'imgScrapy.pipelines.ImgscrapyPipeline': 10,
 }
 # project_dir = os.path.abspath(os.path.dirname(__file__))
 
