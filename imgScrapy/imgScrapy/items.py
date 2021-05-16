@@ -6,8 +6,21 @@
 import scrapy
 
 
-class ImgscrapyItem(scrapy.Item):
+class PageItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    image_urls = scrapy.Field()
+    urls = scrapy.Field()
+    # pages = scrapy.Field()
+    # image_title = scrapy.Field()
+    pass
+
+class ImgItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    urls = scrapy.Field()
+    dirname = scrapy.Field()
+    filename = scrapy.Field()
+
+    # pages = scrapy.Field()
+    # image_title = scrapy.Field()
     pass

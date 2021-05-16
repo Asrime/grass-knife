@@ -10,17 +10,17 @@ import scrapy
 from scrapy.pipelines.images import ImagesPipeline
 
 class ImgscrapyPipeline(ImagesPipeline):
-
     def get_media_requests(self, item, info):
-        for image_url in item['image_urls']:
-        	yield scrapy.Request(image_url)
-        	# print(image_url)
-
-	# def file_path(self, request, response = None, info = None):
-	# 	images_path_name = request.meta['item']['images_folder_name']
-	# 	path = 'http://codesawllow.cn' + request.url
-	# 	print(path)
-	# 	return path
+    	for image_url in item['urls']:
+        	yield scrapy.Request(image_url, meta = {'dirname':item['dirname'], 'filename':item['filename'], })
+        	# print('---------------------------')
+    
+    def file_path(self, request, response = None, info = None):
+    	dirname = request.meta['dirname']
+    	filename = request.meta['filename']
+    	path = u'{0}/{1}'.format(dirname, filename) + '.jpg'
+    	print('get ' + path)
+    	return path
 
 	# def item_completed(self, results, item, info):
 	# 	image_path = [x['path'] for ok, x in results if ok] ##

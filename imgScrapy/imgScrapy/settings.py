@@ -64,6 +64,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 IMAGES_STORE = 'ImageSpider'
+IMAGES_EXPIRES = 90
 
 ITEM_PIPELINES = {
    'imgScrapy.pipelines.ImgscrapyPipeline': 10,
